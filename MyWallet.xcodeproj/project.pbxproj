@@ -12,6 +12,9 @@
 		CD7B0A1C2B5202CF00E4CE9F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD7B0A1B2B5202CF00E4CE9F /* Assets.xcassets */; };
 		CD7B0A1F2B5202CF00E4CE9F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD7B0A1E2B5202CF00E4CE9F /* Preview Assets.xcassets */; };
 		CD7B0A2C2B520BDB00E4CE9F /* MyWalletLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD7B0A2B2B520BDB00E4CE9F /* MyWalletLaunchScreen.storyboard */; };
+		CD7B0A322B5215CA00E4CE9F /* PhoneNumberKit in Frameworks */ = {isa = PBXBuildFile; productRef = CD7B0A312B5215CA00E4CE9F /* PhoneNumberKit */; };
+		CD7B0A342B5215CA00E4CE9F /* PhoneNumberKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = CD7B0A332B5215CA00E4CE9F /* PhoneNumberKit-Dynamic */; };
+		CD7B0A362B5215CA00E4CE9F /* PhoneNumberKit-Static in Frameworks */ = {isa = PBXBuildFile; productRef = CD7B0A352B5215CA00E4CE9F /* PhoneNumberKit-Static */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +31,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD7B0A322B5215CA00E4CE9F /* PhoneNumberKit in Frameworks */,
+				CD7B0A342B5215CA00E4CE9F /* PhoneNumberKit-Dynamic in Frameworks */,
+				CD7B0A362B5215CA00E4CE9F /* PhoneNumberKit-Static in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +92,11 @@
 			dependencies = (
 			);
 			name = MyWallet;
+			packageProductDependencies = (
+				CD7B0A312B5215CA00E4CE9F /* PhoneNumberKit */,
+				CD7B0A332B5215CA00E4CE9F /* PhoneNumberKit-Dynamic */,
+				CD7B0A352B5215CA00E4CE9F /* PhoneNumberKit-Static */,
+			);
 			productName = MyWallet;
 			productReference = CD7B0A142B5202CC00E4CE9F /* MyWallet.app */;
 			productType = "com.apple.product-type.application";
@@ -114,6 +125,9 @@
 				Base,
 			);
 			mainGroup = CD7B0A0B2B5202CC00E4CE9F;
+			packageReferences = (
+				CD7B0A302B5215CA00E4CE9F /* XCRemoteSwiftPackageReference "PhoneNumberKit" */,
+			);
 			productRefGroup = CD7B0A152B5202CC00E4CE9F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -348,6 +362,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CD7B0A302B5215CA00E4CE9F /* XCRemoteSwiftPackageReference "PhoneNumberKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/PhoneNumberKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CD7B0A312B5215CA00E4CE9F /* PhoneNumberKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CD7B0A302B5215CA00E4CE9F /* XCRemoteSwiftPackageReference "PhoneNumberKit" */;
+			productName = PhoneNumberKit;
+		};
+		CD7B0A332B5215CA00E4CE9F /* PhoneNumberKit-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CD7B0A302B5215CA00E4CE9F /* XCRemoteSwiftPackageReference "PhoneNumberKit" */;
+			productName = "PhoneNumberKit-Dynamic";
+		};
+		CD7B0A352B5215CA00E4CE9F /* PhoneNumberKit-Static */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CD7B0A302B5215CA00E4CE9F /* XCRemoteSwiftPackageReference "PhoneNumberKit" */;
+			productName = "PhoneNumberKit-Static";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CD7B0A0C2B5202CC00E4CE9F /* Project object */;
 }
