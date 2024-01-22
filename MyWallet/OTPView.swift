@@ -8,10 +8,14 @@
 import SwiftUI
 
 struct OTPView: View {
+    @Binding var phoneNumber : String
     @State var otpCode: String = ""
     @State var otpDigits: [String] = Array(repeating: "", count: 6)
-    @State var showHome: Bool = false
+    @State var labelText: String = ""
+    @State var isErrorDetected: Bool = false
+    @State var navigateToHome: Bool = false
     @FocusState var otpFieldFocus: Int?
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -19,7 +23,7 @@ struct OTPView: View {
                     .font(.title)
                     .bold()
                     .frame(maxWidth: .infinity)
-                Text("Enter the code sent to")
+                Text("Enter the code sent to **\(phoneNumber)**")
                     .frame(maxWidth: .infinity)
                     .padding(.bottom)
                 HStack {
@@ -58,7 +62,19 @@ struct OTPView: View {
                             if !newValue.isEmpty {
                                 if index == otpDigits.count - 1 {
                                     otpFieldFocus = nil
-                                    showHome = true
+                                    
+                                    otpCode = otpDigits.joined()
+                                    
+                                    Task {
+                                        do {
+                                            let _ = try await Api.shared.checkVerificationToken(e164PhoneNumber: phoneNumber, code: otpCode)
+                                            navigateToHome = true
+                                        } catch let apiError as ApiError {
+                                            // Show appropriate error message if verification code not received.
+                                            isErrorDetected = true
+                                            labelText = apiError.message
+                                        }
+                                    }
                                 }
                                 else {
                                     otpFieldFocus = (otpFieldFocus ?? 0) + 1
@@ -70,12 +86,37 @@ struct OTPView: View {
                         }
                     }
                 }
+                
+                // Button to resend OTP code.
+                Button(action: {
+                    Task {
+                        do {
+                            let _ = try await Api.shared.sendVerificationToken(e164PhoneNumber: phoneNumber)
+                        } catch let apiError as ApiError {
+                            // Show appropriate error message if verification code not received.
+                            labelText = apiError.message
+                        }
+                    }
+                }, label: {
+                    Text("Resend OTP")
+                        .bold()
+                        .foregroundStyle(Color.white)
+                        .padding()
+                })
+                .background(Color.blue)
+                .clipShape(RoundedRectangle(cornerRadius: 10.0))
+                .padding()
+                
+                if isErrorDetected {
+                    Text(labelText)
+                        .foregroundStyle(Color.red)
+                }
             }
             .frame(maxWidth: .infinity,
                    maxHeight: .infinity)
             .background(Color.white)
             .padding()
-            .navigationDestination(isPresented: $showHome) {
+            .navigationDestination(isPresented: $navigateToHome) {
                 HomeView()
             }
         }
@@ -83,5 +124,5 @@ struct OTPView: View {
 }
 
 #Preview {
-    OTPView()
+    OTPView(phoneNumber: .constant("+15309533880"))
 }

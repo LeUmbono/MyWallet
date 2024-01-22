@@ -13,12 +13,14 @@ struct LoginView: View {
     @State var phoneNumberTextField: String = ""
     // State variable to store E164 value of phone number for processing.
     @State var phoneNumberE164: String = ""
-    // State variable to show error/valid label upon validating number.
-    @State var isValidPhoneNumber: Bool = false
+    // State variable to store text for label.
+    @State var labelText: String = ""
+    // State variable to store text color for label
+    @State var labelColor: Color = .black
     // State variable that tracks if OTP button has been clicked.
     @State var isButtonPressed: Bool = false
     // State variable that determines if OTP view is to be shown.
-    @State var showOTPView: Bool = false
+    @State var navigateToOTPView: Bool = false
     // Tracks focus state of phone number text field.
     @FocusState var isPhoneNumberFocused: Bool
     
@@ -52,17 +54,30 @@ struct LoginView: View {
                         // Button has been pressed.
                         isButtonPressed = true
                         let phoneNumber = try phoneNumberKit.parse(phoneNumberTextField)
-                        // If exception not thrown, phone number is valid.
-                        isValidPhoneNumber = true
+                        
                         // Store phone number in text field in E164 format.
                         phoneNumberE164 = phoneNumberKit.format(phoneNumber, toType: .e164)
                         
-                        // Navigate to OTPView
-                        showOTPView = true
+                        // Send OTP to valid phone number.
+                        Task {
+                            do {
+                                let _ = try await Api.shared.sendVerificationToken(e164PhoneNumber: phoneNumberE164)
+                                navigateToOTPView = true
+                            } catch let apiError as ApiError {
+                                // Show appropriate error message if verification code not received.
+                                labelText = apiError.message
+                                labelColor = Color.red
+                            }
+                        }
+                        
+                        labelText = "The OTP has been sent to your phone number."
+                        labelColor = Color.green
                     }
                     catch {
-                        isValidPhoneNumber = false
+                        labelText = "The phone number is invalid or does not exist."
+                        labelColor = Color.red
                     }
+                    
                     // Dismisses keyboard when user taps the button.
                     removeKeyboard()
                 }, label: {
@@ -73,19 +88,10 @@ struct LoginView: View {
                 .buttonStyle(.borderedProminent)
                 
                 if isButtonPressed {
-                    if isValidPhoneNumber
-                    {
-                        VStack{
-                            Text("The OTP has been sent to your phone number")
-                                .foregroundStyle(Color.green)
-                        }
-                    }
-                    else
-                    {
-                        Text("The phone number is invalid or does not exist.")
-                            .foregroundStyle(Color.red)
-                    }
+                    Text(labelText)
+                        .foregroundStyle(labelColor)
                 }
+                
             }
             .frame(maxWidth: .infinity,
                    maxHeight: .infinity)
@@ -95,8 +101,8 @@ struct LoginView: View {
                 removeKeyboard()
             }
             .padding()
-            .navigationDestination(isPresented: $showOTPView) {
-                OTPView()
+            .navigationDestination(isPresented: $navigateToOTPView) {
+                OTPView(phoneNumber: $phoneNumberE164)
             }
         }
     }
