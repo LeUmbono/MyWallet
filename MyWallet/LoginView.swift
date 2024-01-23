@@ -11,15 +11,15 @@ import PhoneNumberKit
 struct LoginView: View {
     // State variable to store value of phone number for text field.
     @State var phoneNumberTextField: String = ""
-    // State variable to store E164 value of phone number for processing.
+    // Variable to store E164 value of phone number for processing.
     @State var phoneNumberE164: String = ""
-    // State variable to store text for label.
+    // Variable to store text for label.
     @State var labelText: String = ""
-    // State variable to store text color for label
+    // Variable to store text color for label
     @State var labelColor: Color = .black
-    // State variable that tracks if OTP button has been clicked.
+    // Variable that tracks if OTP button has been clicked.
     @State var isButtonPressed: Bool = false
-    // State variable that determines if OTP view is to be shown.
+    // Variable that determines if OTP view is to be navigated to.
     @State var navigateToOTPView: Bool = false
     // Tracks focus state of phone number text field.
     @FocusState var isPhoneNumberFocused: Bool
