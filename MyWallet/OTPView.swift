@@ -47,10 +47,6 @@ struct OTPView: View {
                         .tag(index)
                         // Prevent text fields from being clicked/tapped.
                         .allowsHitTesting(false)
-                        .onAppear() {
-                            // Set focus to the first text field on entry into the view.
-                            otpFieldFocus = 0
-                        }
                         .onKeyPress(keys:[.delete]) { _ in
                             otpFieldFocus = (otpFieldFocus ?? 0) - 1
                             // Upon deletion, move to the previous text field.
@@ -67,13 +63,7 @@ struct OTPView: View {
                         .onChange(of: otpDigits[index]) { oldValue, newValue in
                             // Updates text if user types new value into text field with a digit already present.
                             if newValue.count > 1 {
-                                let currentValue = Array(otpDigits[index])
-                                if currentValue[0] == Character(oldValue) {
-                                    otpDigits[index] = String(otpDigits[index].suffix(1))
-                                }
-                                else {
-                                    otpDigits[index] = String(otpDigits[index].prefix(1))
-                                }
+                                otpDigits[index] = String(otpDigits[index].suffix(1))
                             }
                             
                             // Move to the next text field once digit entered.
@@ -104,7 +94,11 @@ struct OTPView: View {
                         }
                     }
                 }
-                
+                .onAppear() {
+                    // Set focus to the first text field on entry into the view.
+                    otpFieldFocus = 0
+                }
+
                 // Button to resend OTP code.
                 Button(action: {
                     // Send verification token.
