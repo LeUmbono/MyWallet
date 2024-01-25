@@ -82,7 +82,7 @@ phone number.
 
 #### OTP Entry 
 The entry region for the OTP is defined by an HStack consisting of six separate text fields, each bound to the elements in the string array `otpDigits`. These text fields' `.keyboardType` property is set to `.phonePad`, ensuring the
-keyboard displays the appropriate symbols when inputting an OTP digit. In addition, the FocusState variable `otpField` determines the text field to focus on, corresponding to the index of the elements in the `otpDigits` array. To prevent direct interaction with the text fields, the `.allowsHitTesting` property was also added to each text field with a value of `false`, preventing users from tapping on a text field to input a digit.
+keyboard displays the appropriate symbols when inputting an OTP digit. In addition, the FocusState variable `otpField` determines the text field to focus on, corresponding to the index of the elements in the `otpDigits` array. To prevent direct interaction with the text fields, the `.allowsHitTesting` property was also added to each text field with a value of `false` whenever not in focus, preventing users from tapping on any other text field other than the one they are currently typing on.
 
 Upon entering the OTP verification screen, `otpField` is automatically set to 0 (corresponding to the leftmost text field) via the `.onAppear` property of the HStack. Inputting a digit immediately moves the focus to the next text field by incrementing `otpField` (if applicable). Similarly, deleting a digit immediately moves the focus to the previous text field by decrementing `otpField`, and works even when the user is in the middle of typing something. This was done by defining custom behavior for the Delete key in the `.onKeyPress` property.
 
