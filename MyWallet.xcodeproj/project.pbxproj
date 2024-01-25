@@ -72,9 +72,9 @@
 				CD7B0A2B2B520BDB00E4CE9F /* MyWalletLaunchScreen.storyboard */,
 				CD7B0A172B5202CC00E4CE9F /* MyWalletApp.swift */,
 				CD7B0A192B5202CC00E4CE9F /* LoginView.swift */,
-				CDDF8DDF2B622D8100EEA91D /* Api.swift */,
 				CDDF8DCB2B5DB83900EEA91D /* OTPView.swift */,
 				CDDF8DD12B5E0E8800EEA91D /* HomeView.swift */,
+				CDDF8DDF2B622D8100EEA91D /* Api.swift */,
 				CD7B0A1B2B5202CF00E4CE9F /* Assets.xcassets */,
 				CD7B0A1D2B5202CF00E4CE9F /* Preview Content */,
 			);
