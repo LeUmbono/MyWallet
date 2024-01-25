@@ -95,7 +95,7 @@ struct LoginView: View {
             }
             .frame(maxWidth: .infinity,
                    maxHeight: .infinity)
-            .background(Color.white)
+            .background()
             .onTapGesture {
                 // Dismisses keyboard when user taps outside.
                 removeKeyboard()

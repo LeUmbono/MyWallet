@@ -37,7 +37,7 @@ struct OTPView: View {
                             // If otpCode has enough characters, display the character int the corresponding text view.
                             Text(otpCode.count >= index + 1 ? String(Array(otpCode)[index]): "")
                                 .frame(width: 48, height:48)
-                                .background(Color.gray.opacity(0.1))
+                                .background(Color.gray.opacity(0.2))
                                 .clipShape(RoundedRectangle(cornerRadius: 5.0))
                         }
                     }
@@ -102,7 +102,6 @@ struct OTPView: View {
             }
             .frame(maxWidth: .infinity,
                    maxHeight: .infinity)
-            .background(Color.white)
             .padding()
             .navigationDestination(isPresented: $navigateToHome) {
                 HomeView()
