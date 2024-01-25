@@ -74,18 +74,28 @@ set to `true`(which is done when the user taps on the Send OTP button).
 ### OTP Verification Screen
 The OTP verification screen presents the user with instructions to input the OTP
 code that has been sent to their designated phone number. Upon inputting all six
-digits, the OTP code entered is validated. If the OTP code is a valid match, the
-user is automatically taken to the application's home screen. Otherwise, an
-appropriate error message will be shown. The user also has the option of
-clicking a button on the screen to resend their OTP code to their designated
-phone number.
+digits (either via the keyboard or through autofill), the OTP code entered is
+validated. If the OTP code is a valid match, the user is automatically taken to
+the application's home screen. Otherwise, an appropriate error message will be
+shown and the OTP entry field is emptied out, allowing the user to re-enter
+their code. The user also has the option of clicking a button on the screen to
+resend their OTP code to their designated phone number.
 
 #### OTP Entry 
-The entry region for the OTP is defined by an HStack consisting of six separate text fields, each bound to the elements in the string array `otpDigits`. These text fields' `.keyboardType` property is set to `.phonePad`, ensuring the
-keyboard displays the appropriate symbols when inputting an OTP digit. In addition, the FocusState variable `otpField` determines the text field to focus on, corresponding to the index of the elements in the `otpDigits` array. To prevent direct interaction with the text fields, the `.allowsHitTesting` property was also added to each text field with a value of `false` whenever not in focus, preventing users from tapping on any other text field other than the one they are currently typing on.
+The entry region for the OTP is defined by a ZStack consisting of a hidden text
+field (bound to `otpCode` and opacity set to 0) and an HStack containing six
+separate text views, each displaying one character from the string `otpCode`.
+The text field's `.keyboardType` property is set to `.phonePad`, ensuring the
+keyboard displays the appropriate symbols when inputting the OTP code. To
+prevent direct interaction with the text field, the `.allowsHitTesting` property
+was also added with a value of `false` whenever not in focus, preventing users
+from tapping on the text field to interact with it.
 
-Upon entering the OTP verification screen, `otpField` is automatically set to 0 (corresponding to the leftmost text field) via the `.onAppear` property of the HStack. Inputting a digit immediately moves the focus to the next text field by incrementing `otpField` (if applicable). Similarly, deleting a digit immediately moves the focus to the previous text field by decrementing `otpField`, and works even when the user is in the middle of typing something. This was done by defining custom behavior for the Delete key in the `.onKeyPress` property.
-
+Upon entering the OTP verification screen, `otpField` is automatically set to
+true via the `.onAppear` property of the text field, bringing up the keyboard for
+entry. Inputting a digit immediately moves the focus to the next text view.
+Similarly, deleting a digit immediately moves the focus to the previous text
+view.
 
 ### Home Screen
 The home screen is currently empty and will be implemented in subsequent
