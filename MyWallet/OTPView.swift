@@ -57,7 +57,9 @@ struct OTPView: View {
                                 otpFieldFocus = false
                                 Task {
                                     do {
-                                        let _ = try await Api.shared.checkVerificationToken(e164PhoneNumber: phoneNumber, code: otpCode)
+                                        let response = try await Api.shared.checkVerificationToken(e164PhoneNumber: phoneNumber, code: otpCode)
+                                        UserDefaults.standard.setValue(response.authToken, forKey: "authToken")
+                                        UserDefaults.standard.synchronize()
                                         // If verified successfully, move to Home view automatically.
                                         navigateToHome = true
                                     } catch let apiError as ApiError {
@@ -107,6 +109,7 @@ struct OTPView: View {
                 HomeView()
             }
         }
+        .environmentObject(UserModel())
     }
 }
 

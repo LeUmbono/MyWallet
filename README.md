@@ -89,7 +89,8 @@ The text field's `.keyboardType` property is set to `.phonePad`, ensuring the
 keyboard displays the appropriate symbols when inputting the OTP code. To
 prevent direct interaction with the text field, the `.allowsHitTesting` property
 was also added with a value of `false` whenever not in focus, preventing users
-from tapping on the text field to interact with it.
+from tapping on the text field to interact with it and potentially changing
+other digits aside from the digit they're currently typing.
 
 Upon entering the OTP verification screen, `otpField` is automatically set to
 true via the `.onAppear` property of the text field, bringing up the keyboard for
