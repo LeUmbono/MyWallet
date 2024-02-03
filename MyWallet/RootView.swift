@@ -9,25 +9,19 @@ import SwiftUI
 
 struct RootView: View {
     @StateObject var userModel = UserModel()
-    @State var isNewUser: Bool = true
+    @State var isAuthenticated: Bool = true
     var body: some View {
         VStack {
-            if isNewUser {
+            if isAuthenticated {
+                LoadingScreenView()
+                    .environmentObject(userModel)
+            }
+            else {
                 LoginView()
             }
-            else {
-                LoadingScreenView()
-            }
         }
-        .onAppear() {
-            if UserDefaults.standard.string(forKey: "authToken") != nil {
-                isNewUser = false
-                print("Hello")
-            }
-            else {
-                isNewUser = true
-                print("No!")
-            }
+        .task {
+            isAuthenticated = userModel.hasAuthentication()
         }
     }
 }

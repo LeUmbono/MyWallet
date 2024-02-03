@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct OTPView: View {
+    @StateObject var userModel = UserModel()
     // Binding that takes in the phone number (in E164 format) stored in LoginView.
-    @Binding var phoneNumber : String
+    @Binding var phoneNumber: String
     // Variable that contains the full OTP code.
     @State var otpCode: String = ""
     // Text of the label to display error message.
@@ -58,8 +59,7 @@ struct OTPView: View {
                                 Task {
                                     do {
                                         let response = try await Api.shared.checkVerificationToken(e164PhoneNumber: phoneNumber, code: otpCode)
-                                        UserDefaults.standard.setValue(response.authToken, forKey: "authToken")
-                                        UserDefaults.standard.synchronize()
+                                        userModel.storeAuthentication(authToken: response.authToken)
                                         // If verified successfully, move to Home view automatically.
                                         navigateToHome = true
                                     } catch let apiError as ApiError {
@@ -107,9 +107,9 @@ struct OTPView: View {
             .padding()
             .navigationDestination(isPresented: $navigateToHome) {
                 HomeView()
+                    .environmentObject(userModel)
             }
         }
-        .environmentObject(UserModel())
     }
 }
 
