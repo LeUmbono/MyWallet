@@ -22,7 +22,6 @@ struct LoadingScreenView: View {
             .padding()
             .navigationDestination(isPresented: $navigateToHome) {
                 HomeView()
-                    .environmentObject(userModel)
             }
             .task {
                 navigateToHome = await userModel.loadUser()
