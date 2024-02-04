@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var userModel: UserModel
+    @State var totalAssetsAmount: String = "$0.00"
     @State var areAccountsLoaded: Bool = false
     @State var navigateToSettings: Bool = false
     var body: some View {
@@ -17,7 +18,7 @@ struct HomeView: View {
                 VStack {
                     Text("Total Assets")
                         .foregroundStyle(Color.white)
-                    Text("$0.00")
+                    Text(totalAssetsAmount)
                         .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                         .bold()
                         .foregroundStyle(Color.white)
@@ -45,6 +46,11 @@ struct HomeView: View {
             }
             .task {
                 areAccountsLoaded = await userModel.loadAccounts()
+                var totalAmount: Double = 0.0
+                for account in userModel.userInfo.accounts {
+                    totalAmount += account.balanceInUsd()
+                }
+                totalAssetsAmount = String(format: "$%0.02f", totalAmount)
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing){
