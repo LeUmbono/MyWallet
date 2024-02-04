@@ -11,6 +11,7 @@ struct LoadingScreenView: View {
     @EnvironmentObject var userModel: UserModel
     @State var errorString: String = ""
     @State var navigateToHome: Bool = false
+    @State var path: [String] = []
     var body: some View {
         NavigationStack {
             VStack {
@@ -25,12 +26,11 @@ struct LoadingScreenView: View {
                     .environmentObject(userModel)
             }
             .task {
-                navigateToHome = await userModel.loadUser()
-                errorString = userModel.errorMessage
+                    navigateToHome = await userModel.loadUser()
+                }
             }
         }
     }
-}
 
 #Preview {
     LoadingScreenView()

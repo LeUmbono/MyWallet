@@ -23,7 +23,6 @@ struct OTPView: View {
     @FocusState var otpFieldFocus: Bool
     
     var body: some View {
-        NavigationStack {
             VStack {
                 Text("What's the code?")
                     .font(.title)
@@ -62,7 +61,9 @@ struct OTPView: View {
                                         userModel.storeAuthentication(authToken: response.authToken)
                                         let _ = await userModel.loadUser()
                                         // If verified successfully, move to Home view automatically.
-                                        navigateToHome = true
+                                        DispatchQueue.main.async {
+                                            navigateToHome = true
+                                        }
                                     } catch let apiError as ApiError {
                                         // Show appropriate error message if verification code is incorrect.
                                         isErrorDetected = true
@@ -110,7 +111,7 @@ struct OTPView: View {
                 HomeView()
                     .environmentObject(userModel)
             }
-        }
+        
     }
 }
 

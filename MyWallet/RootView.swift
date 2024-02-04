@@ -21,7 +21,7 @@ struct RootView: View {
             }
         }
         .task {
-            isAuthenticated = userModel.hasAuthentication()
+                isAuthenticated = userModel.hasAuthentication()
         }
     }
 }

@@ -13,7 +13,6 @@ struct HomeView: View {
     @State var areAccountsLoaded: Bool = false
     @State var navigateToSettings: Bool = false
     var body: some View {
-        NavigationStack {
             VStack {
                 VStack {
                     Text("Total Assets")
@@ -66,7 +65,7 @@ struct HomeView: View {
                 SettingsView()
                     .environmentObject(userModel)
             }
-        }
+        
     }
 }
 
