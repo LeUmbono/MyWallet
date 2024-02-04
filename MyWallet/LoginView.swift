@@ -33,7 +33,6 @@ struct LoginView: View {
     }
     
     var body: some View {
-        NavigationStack {
             VStack {
                 Text("Enter your phone number")
                     .font(.title2)
@@ -104,7 +103,7 @@ struct LoginView: View {
             .navigationDestination(isPresented: $navigateToOTPView) {
                 OTPView(phoneNumber: $phoneNumberE164)
             }
-        }
+        
     }
 }
 

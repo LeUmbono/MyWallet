@@ -13,7 +13,6 @@ struct LoadingScreenView: View {
     @State var navigateToHome: Bool = false
     @State var path: [String] = []
     var body: some View {
-        NavigationStack {
             VStack {
                 ProgressView()
                     .padding()
@@ -28,7 +27,7 @@ struct LoadingScreenView: View {
             .task {
                     navigateToHome = await userModel.loadUser()
                 }
-            }
+            
         }
     }
 

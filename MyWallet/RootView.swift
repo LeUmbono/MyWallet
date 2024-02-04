@@ -11,17 +11,19 @@ struct RootView: View {
     @StateObject var userModel = UserModel()
     @State var isAuthenticated: Bool = true
     var body: some View {
-        VStack {
-            if isAuthenticated {
-                LoadingScreenView()
-                    .environmentObject(userModel)
+        NavigationStack {
+            VStack {
+                if isAuthenticated {
+                    LoadingScreenView()
+                        .environmentObject(userModel)
+                }
+                else {
+                    LoginView()
+                }
             }
-            else {
-                LoginView()
-            }
-        }
-        .task {
+            .task {
                 isAuthenticated = userModel.hasAuthentication()
+            }
         }
     }
 }
