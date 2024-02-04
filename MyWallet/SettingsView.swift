@@ -22,7 +22,6 @@ struct SettingsView: View {
                     Button("Save Name") {
                         Task {
                             await userModel.saveUsername(username: nameString)
-                            print(userModel.userInfo.name ?? "")
                         }
                     }
                 }
