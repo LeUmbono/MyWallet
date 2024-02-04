@@ -60,6 +60,7 @@ struct OTPView: View {
                                     do {
                                         let response = try await Api.shared.checkVerificationToken(e164PhoneNumber: phoneNumber, code: otpCode)
                                         userModel.storeAuthentication(authToken: response.authToken)
+                                        let _ = await userModel.loadUser()
                                         // If verified successfully, move to Home view automatically.
                                         navigateToHome = true
                                     } catch let apiError as ApiError {

@@ -21,14 +21,14 @@ struct SettingsView: View {
                 Section() {
                     Button("Save Name") {
                         Task {
-                            //await userModel.saveUsername(username: nameString)
-                            print(nameString)
+                            await userModel.saveUsername(username: nameString)
+                            print(userModel.userInfo.name ?? "")
                         }
                     }
                 }
                 Section() {
                     Button {
-                        //userModel.logOut()
+                        userModel.logOut()
                     } label: {
                         Text("Log Out")
                             .foregroundStyle(Color.red)

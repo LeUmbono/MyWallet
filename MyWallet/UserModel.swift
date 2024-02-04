@@ -21,6 +21,7 @@ class UserModel : ObservableObject {
     }
     
     // Sets authentication token and store it via User Defaults.
+    @MainActor
     func storeAuthentication(authToken: String)  {
         authenticationToken = authToken
         UserDefaults.standard.setValue(authToken, forKey: "authToken")
@@ -28,6 +29,7 @@ class UserModel : ObservableObject {
     }
     
     // Checks if authentication token exists for a user and reads it into the user model.
+    @MainActor
     func hasAuthentication() -> Bool {
         if let authToken = UserDefaults.standard.string(forKey: "authToken") {
             authenticationToken = authToken
@@ -39,6 +41,7 @@ class UserModel : ObservableObject {
     }
     
     // Loads user information into the user model.
+    @MainActor
     func loadUser() async -> Bool
     {
         // Check if authentication token is null.
@@ -63,18 +66,19 @@ class UserModel : ObservableObject {
     }
     
     // Loads user account information.
+    @MainActor
     func loadAccounts() async -> Bool
     {
         if userInfo.accounts.count > 0 {
-            print("Hi")
             return true
         }
         else {
             return false
         }
     }
-    /*
+    
     // Saves inputted username into user model.
+    @MainActor
     func saveUsername(username: String) async {
         if let authToken = authenticationToken {
             do {
@@ -94,7 +98,8 @@ class UserModel : ObservableObject {
     // Logs user out of application.
     func logOut() {
         UserDefaults.standard.removeObject(forKey: "authToken")
+        UserDefaults.standard.synchronize()
+        exit(0)
     }
-     */
 }
 

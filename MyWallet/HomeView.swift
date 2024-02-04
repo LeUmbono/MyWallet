@@ -58,6 +58,7 @@ struct HomeView: View {
             .navigationBarBackButtonHidden(true)
             .navigationDestination(isPresented: $navigateToSettings) {
                 SettingsView()
+                    .environmentObject(userModel)
             }
         }
     }
