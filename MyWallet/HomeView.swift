@@ -12,7 +12,8 @@ struct HomeView: View {
     @State var totalAssetsAmount: String = "$0.00"
     @State var areAccountsLoaded: Bool = false
     @State var navigateToSettings: Bool = false
-    @State var navigateToAccount: Bool = false
+    @State var navigateToAccountInfo: Bool = false
+    @State var navigateToAddAccount: Bool = false
     var body: some View {
             VStack {
                 VStack {
@@ -45,7 +46,7 @@ struct HomeView: View {
                     }
                     .overlay(alignment:.bottomTrailing) {
                         Button {
-                            
+                            navigateToAddAccount = true
                         } label: {
                             Text("+")
                                 .font(.title)
@@ -84,6 +85,10 @@ struct HomeView: View {
             .navigationBarBackButtonHidden(true)
             .navigationDestination(isPresented: $navigateToSettings) {
                 SettingsView()
+                    .environmentObject(userModel)
+            }
+            .navigationDestination(isPresented: $navigateToAddAccount) {
+                AddAccountView()
                     .environmentObject(userModel)
             }
         

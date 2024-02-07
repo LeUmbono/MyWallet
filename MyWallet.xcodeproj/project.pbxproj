@@ -17,6 +17,7 @@
 		CD7B0A362B5215CA00E4CE9F /* PhoneNumberKit-Static in Frameworks */ = {isa = PBXBuildFile; productRef = CD7B0A352B5215CA00E4CE9F /* PhoneNumberKit-Static */; };
 		CD7B0A382B55F4D600E4CE9F /* PhoneNumberKit in Frameworks */ = {isa = PBXBuildFile; productRef = CD7B0A372B55F4D600E4CE9F /* PhoneNumberKit */; };
 		CD91E9E92B6B657D00708078 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD91E9E82B6B657D00708078 /* SettingsView.swift */; };
+		CD91E9EB2B735ED300708078 /* AddAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD91E9EA2B735ED300708078 /* AddAccountView.swift */; };
 		CDDF8DCC2B5DB83A00EEA91D /* OTPView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDF8DCB2B5DB83900EEA91D /* OTPView.swift */; };
 		CDDF8DD22B5E0E8800EEA91D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDF8DD12B5E0E8800EEA91D /* HomeView.swift */; };
 		CDDF8DE02B622D8100EEA91D /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDF8DDF2B622D8100EEA91D /* Api.swift */; };
@@ -34,6 +35,7 @@
 		CD7B0A2B2B520BDB00E4CE9F /* MyWalletLaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyWalletLaunchScreen.storyboard; sourceTree = "<group>"; };
 		CD7B0A392B58774F00E4CE9F /* README.md */ = {isa = PBXFileReference; explicitFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		CD91E9E82B6B657D00708078 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		CD91E9EA2B735ED300708078 /* AddAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAccountView.swift; sourceTree = "<group>"; };
 		CDDF8DCB2B5DB83900EEA91D /* OTPView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPView.swift; sourceTree = "<group>"; };
 		CDDF8DD12B5E0E8800EEA91D /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		CDDF8DDF2B622D8100EEA91D /* Api.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 				CDDF8DE32B68AF4000EEA91D /* RootView.swift */,
 				CDDF8DE52B69940700EEA91D /* LoadingScreenView.swift */,
 				CDDF8DD12B5E0E8800EEA91D /* HomeView.swift */,
+				CD91E9EA2B735ED300708078 /* AddAccountView.swift */,
 				CD91E9E82B6B657D00708078 /* SettingsView.swift */,
 				CD7B0A192B5202CC00E4CE9F /* LoginView.swift */,
 				CDDF8DCB2B5DB83900EEA91D /* OTPView.swift */,
@@ -183,6 +186,7 @@
 			files = (
 				CD7B0A1A2B5202CC00E4CE9F /* LoginView.swift in Sources */,
 				CD7B0A182B5202CC00E4CE9F /* MyWalletApp.swift in Sources */,
+				CD91E9EB2B735ED300708078 /* AddAccountView.swift in Sources */,
 				CDDF8DD22B5E0E8800EEA91D /* HomeView.swift in Sources */,
 				CD91E9E92B6B657D00708078 /* SettingsView.swift in Sources */,
 				CDDF8DE62B69940700EEA91D /* LoadingScreenView.swift in Sources */,

@@ -95,6 +95,23 @@ class UserModel : ObservableObject {
         }
     }
     
+    @MainActor
+    func createAccount(name: String) async {
+        if let authToken = authenticationToken {
+            do {
+                let userResponse = try await Api.shared.createAccount(authToken: authToken, name: name)
+                self.userInfo = userResponse.user
+            } catch let apiError as ApiError {
+                self.errorMessage = apiError.message
+            } catch {
+                self.errorMessage = "Unknown error."
+            }
+        }
+        else {
+            self.errorMessage = self.missingAuthToken.message
+        }
+    }
+    
     // Logs user out of application.
     func logOut() {
         UserDefaults.standard.removeObject(forKey: "authToken")
