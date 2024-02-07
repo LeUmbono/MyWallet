@@ -12,6 +12,7 @@ struct HomeView: View {
     @State var totalAssetsAmount: String = "$0.00"
     @State var areAccountsLoaded: Bool = false
     @State var navigateToSettings: Bool = false
+    @State var navigateToAccount: Bool = false
     var body: some View {
             VStack {
                 VStack {
@@ -24,22 +25,37 @@ struct HomeView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: 300)
                 .background(Color.blue)
-                VStack {
-                    Text(areAccountsLoaded ? "$$$" : "No Accounts Created")
-                }
-                .padding()
                 if areAccountsLoaded {
-                    ForEach(userModel.userInfo.accounts) { account in
-                        VStack {
-                            Text("Name: " + account.name)
-                                .frame(maxWidth:.infinity, alignment:.leading)
-                            Text("ID: " + account.id)
-                                .frame(maxWidth:.infinity, alignment:.leading)
-                            Text("Balance: " + account.balanceString())
-                                .frame(maxWidth:.infinity, alignment:.leading)
+                    Form {
+                        ForEach(userModel.userInfo.accounts) { account in
+                            Button {
+                                
+                            } label: {
+                                HStack {
+                                    Text(account.name)
+                                        .foregroundStyle(Color.primary)
+                                    Spacer()
+                                    Text(account.balanceString())
+                                        .foregroundStyle(Color.primary)
+                                    Image(systemName: "chevron.right")
+                                        .tint(Color.gray)
+                                }
+                            }
                         }
-                        .padding()
                     }
+                    .overlay(alignment:.bottomTrailing) {
+                        Button {
+                            
+                        } label: {
+                            Text("+")
+                                .font(.title)
+                                .frame(width:75, height:75)
+                                .foregroundStyle(Color.white)
+                                .background(Color.blue)
+                                .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                        }
+                    }
+                    .padding()
                 }
                 Spacer()
             }
@@ -52,6 +68,11 @@ struct HomeView: View {
                 totalAssetsAmount = String(format: "$%0.02f", totalAmount)
             }
             .toolbar {
+                ToolbarItem(placement: .principal){
+                    Text("Wallet")
+                        .bold()
+                        .foregroundStyle(Color.blue)
+                }
                 ToolbarItem(placement: .topBarTrailing){
                     Button("Settings", systemImage: "gear") {
                         navigateToSettings = true
