@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject var userModel: UserModel
     @State var accountInfo: Account = Account(name: "", id: "", balance: 0)
+    @State var accountIndex: Int = 0
     @State var totalAssetsAmount: String = "$0.00"
     @State var navigateToSettings: Bool = false
     @State var navigateToAccountDetails: Bool = false
@@ -28,16 +29,17 @@ struct HomeView: View {
                 .background(Color.blue)
                 
                 Form {
-                    ForEach(userModel.userInfo.accounts) { account in
+                    ForEach(0..<userModel.userInfo.accounts.count, id: \.self) { index in
                         Button {
-                            accountInfo = account
+                            accountInfo = userModel.userInfo.accounts[index]
+                            accountIndex = index
                             navigateToAccountDetails = true
                         } label: {
                             HStack {
-                                Text(account.name)
+                                Text(userModel.userInfo.accounts[index].name)
                                     .foregroundStyle(Color.primary)
                                 Spacer()
-                                Text(account.balanceString())
+                                Text(userModel.userInfo.accounts[index].balanceString())
                                     .foregroundStyle(Color.primary)
                                 Image(systemName: "chevron.right")
                                     .tint(Color.gray)
@@ -92,7 +94,7 @@ struct HomeView: View {
                     .environmentObject(userModel)
             }
             .navigationDestination(isPresented: $navigateToAccountDetails) {
-                AccountDetailsView(account: $accountInfo)
+                AccountDetailsView(account: accountInfo, accountIndex: accountIndex)
                     .environmentObject(userModel)
             }
         

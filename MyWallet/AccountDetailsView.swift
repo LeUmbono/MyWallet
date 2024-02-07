@@ -9,8 +9,11 @@ import SwiftUI
 
 struct AccountDetailsView: View {
     @EnvironmentObject var userModel: UserModel
-    @Binding var account: Account
+    @State var account: Account
+    @State var accountIndex: Int
     @State var amountString: String = ""
+    @State var errorString: String = ""
+    @State var navigateToHome: Bool = false
     var body: some View {
         VStack {
             Text(account.name)
@@ -23,7 +26,8 @@ struct AccountDetailsView: View {
             HStack {
                 Button {
                     Task {
-                        await userModel.deposit(account: account, amount: amountString)
+                        account = await userModel.deposit(account: account, accountIndex: accountIndex, amount: amountString)
+                        errorString = userModel.errorMessage
                     }
                 } label: {
                     Text("Deposit")
@@ -31,7 +35,10 @@ struct AccountDetailsView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 Button {
-                    
+                    Task {
+                        account = await userModel.withdraw(account: account, accountIndex: accountIndex, amount: amountString)
+                        errorString = userModel.errorMessage
+                    }
                 } label: {
                     Text("Withdraw")
                         .bold()
@@ -45,7 +52,8 @@ struct AccountDetailsView: View {
                 }
                 .buttonStyle(.borderedProminent)
             }
-            
+            Text(errorString)
+                .foregroundStyle(Color.red)
         }
         .padding()
         .toolbar {
@@ -55,14 +63,23 @@ struct AccountDetailsView: View {
             }
             ToolbarItem(placement: .topBarTrailing){
                 Button("Delete Account", systemImage: "trash") {
-                    
+                    Task {
+                        await userModel.deleteAccount(account: account)
+                        errorString = userModel.errorMessage
+                        navigateToHome = errorString.isEmpty ? true : false
+                    }
                 }
             }
+        }
+        .navigationDestination(isPresented: $navigateToHome)
+        {
+            HomeView()
+                .environmentObject(userModel)
         }
     }
 }
 
 #Preview {
-    AccountDetailsView(account: .constant(Account(name: "", id: "", balance: 0)))
+    AccountDetailsView(account: Account(name: "", id: "", balance: 0), accountIndex: 0)
         .environmentObject(UserModel())
 }

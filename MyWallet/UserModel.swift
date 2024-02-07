@@ -101,12 +101,11 @@ class UserModel : ObservableObject {
     }
     
     @MainActor
-    func deposit(account: Account, amount: String) async
+    func deleteAccount(account: Account) async
     {
-        let amountInCents: Double = (Double(amount) ?? 0) * 100
         if let authToken = authenticationToken {
             do {
-                let userResponse = try await Api.shared.deposit(authToken: authToken, account: account, amountInCents: Int(amountInCents))
+                let userResponse = try await Api.shared.deleteAccount(authToken: authToken, account: account)
                 self.userInfo = userResponse.user
             } catch let apiError as ApiError {
                 self.errorMessage = apiError.message
@@ -117,6 +116,72 @@ class UserModel : ObservableObject {
         else {
             self.errorMessage = self.missingAuthToken.message
         }
+    }
+    
+    @MainActor
+    func deposit(account: Account, accountIndex: Int, amount: String) async -> Account
+    {
+        let amountInCents: Double = (Double(amount) ?? 0) * 100
+        if let authToken = authenticationToken {
+            do {
+                let userResponse = try await Api.shared.deposit(authToken: authToken, account: account, amountInCents: Int(amountInCents))
+                self.userInfo = userResponse.user
+                return userResponse.user.accounts[accountIndex]
+            } catch let apiError as ApiError {
+                self.errorMessage = apiError.message
+            } catch {
+                self.errorMessage = "Unknown error."
+            }
+        }
+        else {
+            self.errorMessage = self.missingAuthToken.message
+        }
+        
+        return account
+    }
+    
+    @MainActor
+    func withdraw(account: Account, accountIndex: Int, amount: String) async -> Account
+    {
+        let amountInCents: Double = (Double(amount) ?? 0) * 100
+        if let authToken = authenticationToken {
+            do {
+                let userResponse = try await Api.shared.withdraw(authToken: authToken, account: account, amountInCents: Int(amountInCents))
+                self.userInfo = userResponse.user
+                return userResponse.user.accounts[accountIndex]
+            } catch let apiError as ApiError {
+                self.errorMessage = apiError.message
+            } catch {
+                self.errorMessage = "Unknown error."
+            }
+        }
+        else {
+            self.errorMessage = self.missingAuthToken.message
+        }
+        
+        return account
+    }
+    
+    @MainActor
+    func transfer(from: Account, to: Account, accountIndex: Int, amount: String) async -> Account
+    {
+        let amountInCents: Double = (Double(amount) ?? 0) * 100
+        if let authToken = authenticationToken {
+            do {
+                let userResponse = try await Api.shared.transfer(authToken: authToken, from: from, to: to, amountInCents: Int(amountInCents))
+                self.userInfo = userResponse.user
+                return userResponse.user.accounts[accountIndex]
+            } catch let apiError as ApiError {
+                self.errorMessage = apiError.message
+            } catch {
+                self.errorMessage = "Unknown error."
+            }
+        }
+        else {
+            self.errorMessage = self.missingAuthToken.message
+        }
+        
+        return from
     }
     
     // Logs user out of application.
