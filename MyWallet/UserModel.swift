@@ -44,6 +44,7 @@ class UserModel : ObservableObject {
     @MainActor
     func loadUser() async -> Bool
     {
+        clearErrorMessage()
         // Check if authentication token is null.
         if let authToken = authenticationToken {
             // Loads user if Api call succeeds.
@@ -68,6 +69,7 @@ class UserModel : ObservableObject {
     // Saves inputted username into user model.
     @MainActor
     func saveUsername(username: String) async {
+        clearErrorMessage()
         if let authToken = authenticationToken {
             do {
                 let userResponse = try await Api.shared.setUserName(authToken: authToken, name: username)
@@ -85,6 +87,7 @@ class UserModel : ObservableObject {
     
     @MainActor
     func createAccount(name: String) async {
+        clearErrorMessage()
         if let authToken = authenticationToken {
             do {
                 let userResponse = try await Api.shared.createAccount(authToken: authToken, name: name)
@@ -103,6 +106,7 @@ class UserModel : ObservableObject {
     @MainActor
     func deleteAccount(account: Account) async
     {
+        clearErrorMessage()
         if let authToken = authenticationToken {
             do {
                 let userResponse = try await Api.shared.deleteAccount(authToken: authToken, account: account)
@@ -121,6 +125,7 @@ class UserModel : ObservableObject {
     @MainActor
     func deposit(account: Account, accountIndex: Int, amount: String) async -> Account
     {
+        clearErrorMessage()
         let amountInCents: Double = (Double(amount) ?? 0) * 100
         if let authToken = authenticationToken {
             do {
@@ -143,6 +148,7 @@ class UserModel : ObservableObject {
     @MainActor
     func withdraw(account: Account, accountIndex: Int, amount: String) async -> Account
     {
+        clearErrorMessage()
         let amountInCents: Double = (Double(amount) ?? 0) * 100
         if let authToken = authenticationToken {
             do {
@@ -165,6 +171,7 @@ class UserModel : ObservableObject {
     @MainActor
     func transfer(from: Account, to: Account, accountIndex: Int, amount: String) async -> Account
     {
+        clearErrorMessage()
         let amountInCents: Double = (Double(amount) ?? 0) * 100
         if let authToken = authenticationToken {
             do {
@@ -189,6 +196,10 @@ class UserModel : ObservableObject {
         UserDefaults.standard.removeObject(forKey: "authToken")
         UserDefaults.standard.synchronize()
         exit(0)
+    }
+    
+    func clearErrorMessage() {
+        errorMessage = ""
     }
 }
 

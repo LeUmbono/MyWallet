@@ -13,6 +13,7 @@ struct AccountDetailsView: View {
     @State var accountIndex: Int
     @State var amountString: String = ""
     @State var errorString: String = ""
+    @State var isShowingTransactionView: Bool = false
     @State var navigateToHome: Bool = false
     var body: some View {
         VStack {
@@ -45,7 +46,7 @@ struct AccountDetailsView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 Button {
-                    
+                    isShowingTransactionView = true
                 } label: {
                     Text("Transfer")
                         .bold()
@@ -74,6 +75,10 @@ struct AccountDetailsView: View {
         .navigationDestination(isPresented: $navigateToHome)
         {
             HomeView()
+                .environmentObject(userModel)
+        }
+        .sheet(isPresented: $isShowingTransactionView) {
+            TransferView(currentAccount: $account, amountToTransfer: $amountString, errorString: $errorString, currentAccountIndex: accountIndex)
                 .environmentObject(userModel)
         }
     }
