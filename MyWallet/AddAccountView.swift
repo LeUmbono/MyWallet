@@ -13,7 +13,7 @@ struct AddAccountView: View {
     @State var navigateToHome: Bool = false
     var body: some View {
         VStack {
-            TextField("", text: $accountName)
+            TextField("Account name", text: $accountName)
                 .textFieldStyle(.roundedBorder)
             Button {
                 Task {

@@ -100,6 +100,25 @@ class UserModel : ObservableObject {
         }
     }
     
+    @MainActor
+    func deposit(account: Account, amount: String) async
+    {
+        let amountInCents: Double = (Double(amount) ?? 0) * 100
+        if let authToken = authenticationToken {
+            do {
+                let userResponse = try await Api.shared.deposit(authToken: authToken, account: account, amountInCents: Int(amountInCents))
+                self.userInfo = userResponse.user
+            } catch let apiError as ApiError {
+                self.errorMessage = apiError.message
+            } catch {
+                self.errorMessage = "Unknown error."
+            }
+        }
+        else {
+            self.errorMessage = self.missingAuthToken.message
+        }
+    }
+    
     // Logs user out of application.
     func logOut() {
         UserDefaults.standard.removeObject(forKey: "authToken")

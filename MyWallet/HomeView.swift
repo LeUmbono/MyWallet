@@ -9,9 +9,10 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var userModel: UserModel
+    @State var accountInfo: Account = Account(name: "", id: "", balance: 0)
     @State var totalAssetsAmount: String = "$0.00"
     @State var navigateToSettings: Bool = false
-    @State var navigateToAccountInfo: Bool = false
+    @State var navigateToAccountDetails: Bool = false
     @State var navigateToAddAccount: Bool = false
     var body: some View {
             VStack {
@@ -29,7 +30,8 @@ struct HomeView: View {
                 Form {
                     ForEach(userModel.userInfo.accounts) { account in
                         Button {
-                            
+                            accountInfo = account
+                            navigateToAccountDetails = true
                         } label: {
                             HStack {
                                 Text(account.name)
@@ -87,6 +89,10 @@ struct HomeView: View {
             }
             .navigationDestination(isPresented: $navigateToAddAccount) {
                 AddAccountView()
+                    .environmentObject(userModel)
+            }
+            .navigationDestination(isPresented: $navigateToAccountDetails) {
+                AccountDetailsView(account: $accountInfo)
                     .environmentObject(userModel)
             }
         
