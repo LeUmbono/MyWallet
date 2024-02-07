@@ -65,18 +65,6 @@ class UserModel : ObservableObject {
         }
     }
     
-    // Loads user account information.
-    @MainActor
-    func loadAccounts() async -> Bool
-    {
-        if userInfo.accounts.count > 0 {
-            return true
-        }
-        else {
-            return false
-        }
-    }
-    
     // Saves inputted username into user model.
     @MainActor
     func saveUsername(username: String) async {

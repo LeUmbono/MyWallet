@@ -31,6 +31,7 @@ struct AddAccountView: View {
         .navigationDestination(isPresented: $navigateToHome)
         {
             HomeView()
+                .environmentObject(userModel)
         }
     }
 }
