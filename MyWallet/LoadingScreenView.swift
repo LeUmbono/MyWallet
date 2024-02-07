@@ -26,6 +26,7 @@ struct LoadingScreenView: View {
             }
             .task {
                     navigateToHome = await userModel.loadUser()
+                    errorString = userModel.errorMessage
                 }
             
         }
