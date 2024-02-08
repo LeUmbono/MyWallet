@@ -2,15 +2,15 @@
 **Russell Umboh - 918720281**
 
 ## Overview
-MyWallet is a simple digital wallet application that consists of six screens: 1)
-a splash screen with a logo and name, 2) a login screen wherein users can input
-a phone number and send an OTP to that number, 3) an OTP verification screen
-wherein users can enter the OTP received by their phone number to access the
-rest of the application, 4) a loading screen that loads user information upon
-entering the application as an authenticated user, 5) a home screen that
-displays user accounts and total asset value in USD, and 6) a settings screen
-that allows users to see and modify their personal information as well as log
-out of the application.
+MyWallet is a simple digital wallet application that consists of six primary
+screens: 1) a splash screen with a logo and name, 2) a login screen wherein
+users can input a phone number and send an OTP to that number, 3) an OTP
+verification screen wherein users can enter the OTP received by their phone
+number to access the rest of the application, 4) a loading screen that loads
+user information upon entering the application as an authenticated user, 5) a
+home screen that displays user accounts and total asset value in USD, and 6) a
+settings screen that allows users to see and modify their personal information
+as well as log out of the application.
 
 ## Features
 ### Splash Screen
@@ -117,10 +117,50 @@ loading screen.
 
 ### Home Screen
 The home screen displays the accounts associated with a user, showing the name,
-id and current balance of each account. It also displays the total balance of
-the user's accounts. In case no accounts are associated with the user or the
-accounts fail to be loaded, a `No Accounts Created` message is displayed. The
-user can also navigate to the settings screen from this page.
+and current balance of each account. It also displays the total balance of the
+user's accounts. The screen also contains a button that allows the user to
+create a new account with zero balance in the application. The user can also
+navigate to the settings screen from this page.
+
+#### Adding a New Account
+Upon clicking on the `+` button on the home screen, the user is taken to a
+separate screen with a textfield to enter the name of their new account. By
+clicking on the `Create` button on that screen, the user navigates back to the
+home screen, where their new account shall be displayed with a balance of zero
+dollars.
+
+#### Account Details and Transactions
+The user can view more detailed information on each account by tapping on a
+specific account entry on the home screen. This takes them to an account details
+screen associated with the account they selected. On this page, the account's
+name and balance will be displayed once again, along with buttons to perform the
+following transactions with the account: `Deposit`, `Withdraw`, and `Transfer`.
+A text field is also provided for the user to enter a specified amount of money
+to conduct a transaction.
+
+If the user selects `Deposit`, the inputted amount of money will be added to the
+balance for that specific account. In the home screen, the total assets value
+and account balance will also be increased accordingly.
+
+If the user selects `Withdraw`, the inputted amount of money will be deducted to
+the balance for that specific account, if possible. In the home screen, the
+total assets value and the account balance will also be decreased accordingly.
+
+If the user selects `Transfer`, a seperate view will be brought up in the screen
+prompting the user to select an account to transfer the inputted amount from
+their currently viewed account. Once the user makes their selection and clicks
+the `Transfer` button, the money is deducted from their current account and
+added to the selected account accordingly, if possible. In the home screen, the
+account balances of the involved accounts will be updated accordingly.
+
+In the case the user makes an invalid transaction (e.g. not inputting an amount
+or attempting to withdraw/transfer more than the account balance), an
+appropriate error message will be displayed.
+
+Finally, the user can click on the trash can icon on the right of the toolbar in
+order to delete the account. This navigates the user back to the home screen and
+removes the deleted account from the displayed entries, subtracting the account
+balance from the total assets accordingly.
 
 ### Settings Screen
 The setting screen displays the information associated with a user, which
@@ -160,10 +200,6 @@ which passes in `authenticationToken` as a parameter. If loaded successfully,
 the function returns `true`. If the API call fails or the authentication code is
 missing, `errorMessage` is set appropriately. The function also returns `false`.
 
-#### loadAccounts() async -> Bool
-This async method checks if the number of accounts associated with the user is
-greater than zero. If so, it returns `true`. Else, it returns `false`.
-
 #### saveUsername(username: String) async -> void
 This async method saves a specified username for the user associated with
 `authenticationToken`. This is done via an API call with the Api `setUserName`,
@@ -171,6 +207,56 @@ which passes in `authenticationToken` and `username` as parameters. It then sets
 `userInfo` to the updated user information returned by the Api function call. If
 the API call fails or the authentication code is missing, `errorMessage` is set
 appropriately.
+
+#### createAccount(name: String) async -> void
+This async method creates a new account with a specified name for the user associated with `authenticationToken`. This is done via an API call with the Api `createAccount`,
+which passes in `authenticationToken` and `name` as parameters. It then sets
+`userInfo` to the updated user information returned by the Api function call. If
+the API call fails or the authentication code is missing, `errorMessage` is set
+appropriately.
+
+#### deleteAccount(account: Account) async -> void
+This async method deletes the account specified by the `account` parameter for
+the user associated with `authenticationToken`. This is done via an API call
+with the Api `deleteAccount`, which passes in `authenticationToken` and `name`
+as parameters. It then sets `userInfo` to the updated user information returned
+by the Api function call. If the API call fails or the authentication code is
+missing, `errorMessage` is set appropriately.
+
+#### deposit(account: Account, accountIndex: Int, amount: String) async -> Account
+This async method deposits `amount` (converted to an Int to represent the amount
+in cents) into the account specified by the `account` parameter for the user
+associated with `authenticationToken`.  This is done via an API call with the
+Api `deposit`, which passes in `authenticationToken`, `account` and `amount` as
+parameters. It then sets `userInfo` to the updated user information returned by
+the Api function call. Furthermore, the function returns the updated account
+information if the Api call is successful. If the API call fails or the
+authentication code is missing, `errorMessage` is set appropriately and the
+function returns the original account.
+
+#### withdraw(account: Account, accountIndex: Int, amount: String) async -> Account
+This async method withdraws `amount` (converted to an Int to represent the
+amount in cents) into the account specified by the `account` parameter for the
+user associated with `authenticationToken`.  This is done via an API call with
+the Api `deposit`, which passes in `authenticationToken`, `account` and `amount`
+as parameters. It then sets `userInfo` to the updated user information returned
+by the Api function call. Furthermore, the function returns the updated account
+information if the Api call is successful. If the API call fails or the
+authentication code is missing, `errorMessage` is set appropriately and the
+function returns the original account.
+
+#### transfer(from: Account, to: Account, accountIndex: Int, amount: String) async -> Account
+This async method transfers `amount` (converted to an Int to represent the
+amount in cents) into the account specified by the `to` parameter from the
+`from` parameter for the user associated with `authenticationToken`.  This is
+done via an API call with the Api `deposit`, which passes in
+`authenticationToken`, `from`, `to` and `amount` as parameters. It then sets
+`userInfo` to the updated user information returned by the Api function call.
+Furthermore, the function returns the updated account information if the Api
+call is successful. If the API call fails or the authentication code is missing,
+`errorMessage` is set appropriately and the function returns the original
+account.
+
 
 #### logOut() -> void
 This method logs out the user by calling the
